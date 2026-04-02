@@ -1,7 +1,10 @@
 const GAS_URL = "https://script.google.com/macros/s/AKfycbzTJ6FudrONmpve-CPxSy0Hb9HGKOE5pFFecKHDLd2Otb8DzR6SHYeWeS1EbUb2dICb/exec"; 
 
+// fetchStockData ફંક્શન - આની આગળ async હોવું જ જોઈએ
 async function fetchStockData() {
-    const sym = document.getElementById('stockSearch').value.toUpperCase().trim();
+    const symInput = document.getElementById('stockSearch');
+    const sym = symInput.value.toUpperCase().trim();
+    
     if(!sym) { 
         alert("કૃપા કરીને કંપનીનું નામ લખો"); 
         return; 
@@ -9,17 +12,18 @@ async function fetchStockData() {
     
     const btn = document.querySelector('.search-box button');
     const originalText = btn.innerText;
+    
     btn.innerText = "Searching...";
-    btn.disabled = true; // સર્ચ વખતે બટન લોક કરી દેવું
+    btn.disabled = true;
 
     try {
-        // GAS URL પર રિક્વેસ્ટ મોકલી રહ્યા છીએ
+        // અહીં await નો ઉપયોગ થાય છે
         const response = await fetch(`${GAS_URL}?type=ff2_search&s=${sym}`);
         const res = await response.json();
         
         if(res.success) {
             const d = res.data;
-            // શીટ માંથી આવેલા ડેટાને ફોર્મમાં ભરવો
+            // ડેટા ભરવાનું લોજિક
             document.getElementById('p_profit').value = d.profit || 0;
             document.getElementById('p_equity').value = d.equity || 0;
             document.getElementById('p_shares').value = d.shares ? parseFloat(d.shares).toFixed(2) : 0;
@@ -31,25 +35,27 @@ async function fetchStockData() {
             document.getElementById('p_liab').value = d.liab || 0;
             document.getElementById('p_prom').value = d.prom || 0;
             
-            // જો ભાવ શીટમાં 0 હોય, તો યુઝરને હાથેથી નાખવા માટે એલર્ટ આપવું
+            // જો ભાવ ના હોય
             if(!d.price || d.price == 0) {
                 document.getElementById('p_price').value = "";
-                alert("ડેટા મળી ગયો છે! કૃપા કરીને શેરનો હાલનો 'Price' જાતે નાખો.");
+                alert("ડેટા મળી ગયો છે! કૃપા કરીને શેરનો 'Price' જાતે નાખો.");
             } else {
                 document.getElementById('p_price').value = d.price;
                 alert("ડેટા સફળતાપૂર્વક ભરાઈ ગયો છે!");
             }
         } else {
-            alert("સ્ટોક મળ્યો નથી. કૃપા કરીને સાચો સિમ્બોલ (દા.ત. RELIANCE) લખો.");
+            alert("સ્ટોક મળ્યો નથી. (દા.ત. RELIANCE ટ્રાય કરો)");
         }
     } catch (e) {
-        console.error("Error:", e);
-        alert("સર્વર સાથે કનેક્ટ થઈ શક્યું નથી. લિંક ચેક કરો.");
+        console.error("Fetch error:", e);
+        alert("સર્વર કનેક્શન ફેલ! લિંક ચેક કરો.");
     } finally {
         btn.innerText = originalText;
         btn.disabled = false;
     }
 }
+
+// બાકીના ફંક્શન (runFF2, openModal, વગેરે) અહીં નીચે અકબંધ રાખવા...
 // 2. Run Calculations (FF2)
 let lastResults = []; // Global storage for PDF
 
