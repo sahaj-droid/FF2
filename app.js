@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbz2yAhfLIhohLxXqvOJ1J9lA7f0Sb1qaesEO4HmWIOP7LLsCAyrI7tXLQlPYGt90t2KOQ/exec"; 
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzTJ6FudrONmpve-CPxSy0Hb9HGKOE5pFFecKHDLd2Otb8DzR6SHYeWeS1EbUb2dICb/exec"; 
 
 // 1. Fetch Data from Sheet
 async function fetchStockData() {
