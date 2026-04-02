@@ -3,7 +3,9 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbzTJ6FudrONmpve-CPxSy0H
 // 1. Fetch Data from Sheet
 async function fetchStockData() {
     const sym = document.getElementById('stockSearch').value.toUpperCase();
-    if(!sym) { alert("कृपया कंपनी का नाम लिखें"); return; }
+    if(!sym) { alert("કૃપા કરીને કંપનીનું નામ લખો"); return; }
+    // ... બાકીનો તમારો જૂનો કોડ અકબંધ રહેશે ...
+}
     
     const btn = document.querySelector('.search-box button');
     btn.innerText = "Searching...";
