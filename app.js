@@ -16,7 +16,7 @@ async function fetchStockData() {
             const d = res.data;
             document.getElementById('p_profit').value = d.profit;
             document.getElementById('p_equity').value = d.equity;
-            document.getElementById('p_shares').value = d.shares;
+            document.getElementById('p_shares').value = parseFloat(d.shares).toFixed(2);
             document.getElementById('p_ebit').value = d.ebit;
             document.getElementById('p_ce').value = d.ce;
             document.getElementById('p_price').value = d.price;
@@ -63,7 +63,7 @@ function runFF2() {
     const de = (v.d / v.e).toFixed(2);
     const dy = ((v.div / (v.pr * v.s)) * 100).toFixed(2);
     const cr = (v.as / v.li).toFixed(2);
-    const ph = ((v.prom / v.s) * 100).toFixed(2);
+    const ph = v.prom.toFixed(2);
 
     lastResults = [
         { l: "P/E Ratio", v: pe, g: pe < 25, t: "pe", f: `Price(${v.pr}) ÷ EPS(${eps})` },
